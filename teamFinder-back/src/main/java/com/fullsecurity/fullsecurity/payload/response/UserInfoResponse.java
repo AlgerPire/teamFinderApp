@@ -20,4 +20,6 @@ public class UserInfoResponse {
     private String email;
 
     private List<String> roles;
+
+    private String token;
 }

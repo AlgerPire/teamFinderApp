@@ -37,6 +37,10 @@ public class JwtUtils {
         return generateCookie(jwtCookie, jwt, "/api");
     }
 
+    public String getToken(UserDetailsImpl userDetails) {
+        return generateTokenFromUsername(userDetails.getUsername());
+    }
+
     public ResponseCookie generateJwtCookie(User user) {
         String jwt = generateTokenFromUsername(user.getUsername());
         return generateCookie(jwtCookie, jwt, "/api");
