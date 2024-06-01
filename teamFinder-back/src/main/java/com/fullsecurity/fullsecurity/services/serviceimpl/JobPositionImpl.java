@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional
@@ -33,5 +34,10 @@ public class JobPositionImpl implements JobPositionService {
         jobPosition.setStartup(startup);
         jobPositionRepository.save(jobPosition);
 
+    }
+
+    @Override
+    public List<JobPosition> jobPositions() {
+        return jobPositionRepository.findAll();
     }
 }

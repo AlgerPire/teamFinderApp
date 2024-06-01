@@ -3,6 +3,7 @@ package com.fullsecurity.fullsecurity.services.serviceimpl;
 import com.fullsecurity.fullsecurity.dto.UserProfileDto;
 import com.fullsecurity.fullsecurity.dto.mapper.UserProfileMapper;
 import com.fullsecurity.fullsecurity.models.Skills;
+import com.fullsecurity.fullsecurity.models.User;
 import com.fullsecurity.fullsecurity.models.UserProfile;
 import com.fullsecurity.fullsecurity.repository.UserProfileRepository;
 import com.fullsecurity.fullsecurity.repository.UserRepository;
@@ -22,12 +23,15 @@ public class UserProfileImpl implements UserProfileService {
 
     private final UserProfileRepository userProfileRepository;
 
+    private final UserRepository userRepository;
+
     private final UserProfileMapper userProfileMapper;
 
     private final ViewerNotificationService viewerNotificationService;
 
-    public UserProfileImpl(UserProfileRepository userProfileRepository, UserProfileMapper userProfileMapper, ViewerNotificationService viewerNotificationService) {
+    public UserProfileImpl(UserProfileRepository userProfileRepository, UserRepository userRepository, UserProfileMapper userProfileMapper, ViewerNotificationService viewerNotificationService) {
         this.userProfileRepository = userProfileRepository;
+        this.userRepository = userRepository;
         this.userProfileMapper = userProfileMapper;
         this.viewerNotificationService = viewerNotificationService;
     }
@@ -35,8 +39,11 @@ public class UserProfileImpl implements UserProfileService {
     @Override
     public void addUserProfile(UserProfile userProfile) {
         if(userProfile.getId() == null) { // ne create
+            User user = userRepository.findById(UserDetailsImpl.getCurrentId()).get();
           userProfile.setIsProfileCompleted(true);
+          userProfile.setStatus(true);
           userProfile.setLoggedInUser(UserDetailsImpl.getCurrentId());
+          userProfile.setEmail(user.getEmail());
           this.userProfileRepository.save(userProfile);
         } else { // ne update
             UserProfile userProfileCurrent = this.userProfileRepository.findById(userProfile.getId()).get();
