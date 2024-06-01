@@ -1,8 +1,10 @@
 package com.fullsecurity.fullsecurity.controllers;
 import com.fullsecurity.fullsecurity.dto.UserProfileDto;
+import com.fullsecurity.fullsecurity.models.JobPosition;
 import com.fullsecurity.fullsecurity.models.UserProfile;
 import com.fullsecurity.fullsecurity.payload.response.ApiResponse;
 import com.fullsecurity.fullsecurity.security.services.UserDetailsImpl;
+import com.fullsecurity.fullsecurity.services.JobMatchingService;
 import com.fullsecurity.fullsecurity.services.UserProfileService;
 import com.fullsecurity.fullsecurity.services.serviceimpl.MatchingAlgorithm;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -25,11 +27,14 @@ public class UserProfileController {
 
     private final MatchingAlgorithm matchingAlgorithm;
 
+    private final JobMatchingService jobMatchingService;
+
     private static final Logger logger = LoggerFactory.getLogger(UserProfileController.class);
 
-    public UserProfileController(UserProfileService userProfileService, MatchingAlgorithm matchingAlgorithm) {
+    public UserProfileController(UserProfileService userProfileService, MatchingAlgorithm matchingAlgorithm, JobMatchingService jobMatchingService) {
         this.userProfileService = userProfileService;
         this.matchingAlgorithm = matchingAlgorithm;
+        this.jobMatchingService = jobMatchingService;
     }
 
     @PostMapping("/add")
@@ -71,6 +76,18 @@ public class UserProfileController {
         logger.debug("Request to get LoggedIn User");
         try {
             return ResponseEntity.ok(userProfileService.getLoggedInUser());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/job-matching")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<JobPosition>> getMatchedJobPosition() {
+        logger.debug("Request to get matched job position");
+        try {
+            return ResponseEntity.ok(jobMatchingService.suggestJobsForUser(UserDetailsImpl.getCurrentId()));
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
