@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JobExperienceRepository extends JpaRepository<JobExperience, Long> {
+
+
 }

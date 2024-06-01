@@ -13,4 +13,6 @@ public interface UserProfileService {
     Map<UserProfile, List<String>> getUserSkillsMap();
 
     UserProfileDto getUserProfile(Long id);
+
+    UserProfile getLoggedInUser();
 }

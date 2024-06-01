@@ -44,5 +44,7 @@ public class FounderProfile {
     @Email
     private String email;
 
+    private Long loggedInUser;
+
 
 }

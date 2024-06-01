@@ -67,4 +67,9 @@ public class UserProfileImpl implements UserProfileService {
         this.viewerNotificationService.sendProfileViewNotification(viewerProfile, userProfile);
         return this.userProfileMapper.toDto(userProfile);
     }
+
+    @Override
+    public UserProfile getLoggedInUser() {
+        return this.userProfileRepository.findUserProfileByLoggedInUser(UserDetailsImpl.getCurrentId());
+    }
 }

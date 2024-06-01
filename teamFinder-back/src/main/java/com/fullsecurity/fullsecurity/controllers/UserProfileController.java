@@ -64,4 +64,17 @@ public class UserProfileController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/get-logged-user")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<UserProfile> getLoggedInUser() {
+        logger.debug("Request to get LoggedIn User");
+        try {
+            return ResponseEntity.ok(userProfileService.getLoggedInUser());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

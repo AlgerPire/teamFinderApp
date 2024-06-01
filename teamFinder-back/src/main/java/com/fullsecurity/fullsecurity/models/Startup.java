@@ -37,5 +37,9 @@ public class Startup {
             inverseJoinColumns = @JoinColumn(name = "skills_id"))
     private List<Skills> techStack;
 
+    @ManyToOne
+    @JoinColumn(name = "founder_profile_id", nullable = false)
+    private FounderProfile founderProfile;
+
 
 }

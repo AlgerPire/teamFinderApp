@@ -83,6 +83,7 @@ public class WebSecurityConfig {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         //Make the below setting as * to allow connection from any hos
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:4201"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
         // corsConfiguration.setAllowedOrigins(List.of(constantConfig.getAppUrl()));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "DELETE", "UPDATE"));
         corsConfiguration.setAllowCredentials(true);

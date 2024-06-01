@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FounderRepository extends JpaRepository<FounderProfile, Long> {
+
+    FounderProfile findByLoggedInUser(Long id);
 }
